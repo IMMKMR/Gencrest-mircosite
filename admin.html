@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NANOVATE NAYI SOCH - Admin Dashboard for managing farmer engagement, coupons, and contest adjudication">
+  <title>NANOVATE Admin Panel</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- ============ ADMIN LOGIN ============ -->
+  <div class="admin-login-page" id="admin-login-page">
+    <div class="admin-login-card">
+      <div class="admin-login-logo">
+        <div class="logo-icon">🌱</div>
+        <h1>NANOVATE Admin</h1>
+        <p>Sign in to access the dashboard</p>
+      </div>
+
+      <div class="admin-form-group">
+        <label>Email Address</label>
+        <input type="email" class="admin-input" id="admin-email" placeholder="admin@nanovate.ag" value="admin@nanovate.ag">
+      </div>
+
+      <div class="admin-form-group">
+        <label>Password</label>
+        <input type="password" class="admin-input" id="admin-password" placeholder="Enter password" value="admin123">
+      </div>
+
+      <button class="admin-btn admin-btn-primary" onclick="adminLogin()">
+        Sign In →
+      </button>
+
+      <div class="login-error" id="login-error"></div>
+
+      <p style="text-align:center;font-size:12px;color:#5C6778;margin-top:20px;">
+        Demo: admin@nanovate.ag / admin123
+      </p>
+    </div>
+  </div>
+
+
+  <!-- ============ ADMIN LAYOUT ============ -->
+  <div class="admin-layout" id="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="sidebar-logo">🌱</div>
+          <div class="sidebar-brand-text">
+            <h3>NANOVATE</h3>
+            <span>Admin Panel</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">Overview</div>
+        <button class="sidebar-item active" data-page="dashboard" onclick="showAdminPage('dashboard')">
+          <span class="sidebar-item-icon">📊</span>
+          Dashboard
+        </button>
+
+        <div class="sidebar-section-label">Reports</div>
+        <button class="sidebar-item" data-page="coupon-reports" onclick="showAdminPage('coupon-reports')">
+          <span class="sidebar-item-icon">🎟️</span>
+          Coupon Reports
+        </button>
+        <button class="sidebar-item" data-page="contest-reports" onclick="showAdminPage('contest-reports')">
+          <span class="sidebar-item-icon">🏆</span>
+          Contest Reports
+        </button>
+
+        <div class="sidebar-section-label">Management</div>
+        <button class="sidebar-item" data-page="cms" onclick="showAdminPage('cms')">
+          <span class="sidebar-item-icon">⚖️</span>
+          Contest CMS
+        </button>
+        <button class="sidebar-item" data-page="settings" onclick="showAdminPage('settings')">
+          <span class="sidebar-item-icon">⚙️</span>
+          Admin Settings
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar">VS</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">Vikram Sharma</div>
+            <div class="sidebar-user-role">Super Admin</div>
+          </div>
+          <button class="admin-btn-icon" onclick="adminLogout()" title="Logout">🚪</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <h1 class="admin-page-title" id="admin-page-title">Dashboard</h1>
+        <div class="admin-topbar-actions">
+          <span style="font-size:13px;color:#8B95A5;">Last updated: Just now</span>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: DASHBOARD ===== -->
+      <div class="admin-page active" id="page-dashboard">
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <div class="kpi-icon green">👥</div>
+              <span class="kpi-trend up">↑ 12%</span>
+            </div>
+            <div class="kpi-value" id="kpi-registrations">7</div>
+            <div class="kpi-label">Total Registrations</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <div class="kpi-icon orange">📋</div>
+              <span class="kpi-trend up">↑ 8%</span>
+            </div>
+            <div class="kpi-value" id="kpi-bills">12</div>
+            <div class="kpi-label">Total Bills Submitted</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <div class="kpi-icon blue">🎟️</div>
+              <span class="kpi-trend up">↑ 15%</span>
+            </div>
+            <div class="kpi-value" id="kpi-coupons">20</div>
+            <div class="kpi-label">Coupons Generated</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <div class="kpi-icon purple">🏆</div>
+              <span class="kpi-trend up">↑ 22%</span>
+            </div>
+            <div class="kpi-value" id="kpi-contest">8</div>
+            <div class="kpi-label">Contest Entries</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <div class="kpi-icon red">🌾</div>
+              <span class="kpi-trend up">↑ 18%</span>
+            </div>
+            <div class="kpi-value" id="kpi-acreage">49</div>
+            <div class="kpi-label">Acreage Covered</div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">Registrations by State</div>
+            </div>
+            <div class="bar-chart" id="chart-state"></div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">Coupons by Product</div>
+            </div>
+            <div class="bar-chart" id="chart-product"></div>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">Contest by Category</div>
+            </div>
+            <div id="chart-category"></div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">Contest Entry Status</div>
+            </div>
+            <div class="bar-chart" id="chart-contest-status"></div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ===== PAGE: COUPON REPORTS ===== -->
+      <div class="admin-page" id="page-coupon-reports">
+        <div class="filters-bar">
+          <select class="filter-select" id="filter-coupon-state" onchange="filterCouponReports()">
+            <option value="">All States</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Gujarat">Gujarat</option>
+          </select>
+          <select class="filter-select" id="filter-coupon-product" onchange="filterCouponReports()">
+            <option value="">All Products</option>
+            <option value="euPhoria">euPhoria</option>
+            <option value="KronoShield">KronoShield</option>
+            <option value="AgroVita">AgroVita</option>
+          </select>
+          <div class="filter-spacer"></div>
+          <button class="download-btn" onclick="downloadCouponCSV()">
+            📥 Download Excel
+          </button>
+        </div>
+
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Farmer</th>
+                <th>Mobile</th>
+                <th>State</th>
+                <th>District</th>
+                <th>Product</th>
+                <th>SKU</th>
+                <th>Qty</th>
+                <th>Acreage</th>
+                <th>Coupons</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="coupon-table-body">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <span id="coupon-table-count">Showing 12 of 12 entries</span>
+            <div class="table-pagination">
+              <button class="page-btn active">1</button>
+              <button class="page-btn">2</button>
+              <button class="page-btn">→</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ===== PAGE: CONTEST REPORTS ===== -->
+      <div class="admin-page" id="page-contest-reports">
+        <div class="filters-bar">
+          <select class="filter-select" id="filter-contest-state" onchange="filterContestReports()">
+            <option value="">All States</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Gujarat">Gujarat</option>
+          </select>
+          <select class="filter-select" id="filter-contest-category" onchange="filterContestReports()">
+            <option value="">All Categories</option>
+            <option value="Water Conservation">Water Conservation</option>
+            <option value="Pest Management">Pest Management</option>
+            <option value="Soil Health">Soil Health</option>
+            <option value="Farm Mechanization">Farm Mechanization</option>
+            <option value="Organic Farming">Organic Farming</option>
+          </select>
+          <select class="filter-select" id="filter-contest-status" onchange="filterContestReports()">
+            <option value="">All Status</option>
+            <option value="submitted">Submitted</option>
+            <option value="review">Under Review</option>
+            <option value="selected">Selected</option>
+            <option value="winner">Winner</option>
+          </select>
+          <div class="filter-spacer"></div>
+          <button class="download-btn" onclick="downloadContestCSV()">
+            📥 Download Excel
+          </button>
+        </div>
+
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Farmer</th>
+                <th>Mobile</th>
+                <th>State</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Video</th>
+                <th>Status</th>
+                <th>Award</th>
+              </tr>
+            </thead>
+            <tbody id="contest-table-body">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <span id="contest-table-count">Showing 8 of 8 entries</span>
+            <div class="table-pagination">
+              <button class="page-btn active">1</button>
+              <button class="page-btn">→</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ===== PAGE: CMS ADJUDICATION ===== -->
+      <div class="admin-page" id="page-cms">
+        <div class="filters-bar">
+          <select class="filter-select" onchange="renderCMS()">
+            <option value="">All Categories</option>
+            <option value="Water Conservation">Water Conservation</option>
+            <option value="Pest Management">Pest Management</option>
+            <option value="Soil Health">Soil Health</option>
+            <option value="Farm Mechanization">Farm Mechanization</option>
+            <option value="Organic Farming">Organic Farming</option>
+          </select>
+          <select class="filter-select">
+            <option value="">All Status</option>
+            <option value="submitted">Not Reviewed</option>
+            <option value="selected">Shortlisted</option>
+            <option value="winner">Award Selected</option>
+          </select>
+          <div class="filter-spacer"></div>
+          <span style="font-size:13px;color:#8B95A5;">8 entries to review</span>
+        </div>
+
+        <div class="cms-grid" id="cms-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+
+      <!-- ===== PAGE: SETTINGS ===== -->
+      <div class="admin-page" id="page-settings">
+        <div class="admin-ids-card">
+          <div class="admin-ids-title">Admin Users (10 IDs)</div>
+          <div class="admin-id-list" id="admin-id-list">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <div class="admin-ids-card" style="margin-top:20px;">
+          <div class="admin-ids-title">System Configuration</div>
+          <div class="profile-item" style="border-bottom:1px solid rgba(255,255,255,0.06);padding:14px 0;">
+            <span style="font-size:13px;color:#8B95A5;">OTP Provider</span>
+            <span style="font-size:14px;color:#E8ECF1;font-weight:600;">MSG91 (Transactional)</span>
+          </div>
+          <div class="profile-item" style="border-bottom:1px solid rgba(255,255,255,0.06);padding:14px 0;">
+            <span style="font-size:13px;color:#8B95A5;">Video Storage</span>
+            <span style="font-size:14px;color:#E8ECF1;font-weight:600;">AWS S3 (Mumbai Region)</span>
+          </div>
+          <div class="profile-item" style="border-bottom:1px solid rgba(255,255,255,0.06);padding:14px 0;">
+            <span style="font-size:13px;color:#8B95A5;">Max Video Size</span>
+            <span style="font-size:14px;color:#E8ECF1;font-weight:600;">100 MB</span>
+          </div>
+          <div class="profile-item" style="border-bottom:1px solid rgba(255,255,255,0.06);padding:14px 0;">
+            <span style="font-size:13px;color:#8B95A5;">Hosting</span>
+            <span style="font-size:14px;color:#E8ECF1;font-weight:600;">AWS EC2 + CloudFront</span>
+          </div>
+          <div class="profile-item" style="border-bottom:1px solid rgba(255,255,255,0.06);padding:14px 0;">
+            <span style="font-size:13px;color:#8B95A5;">Domain</span>
+            <span style="font-size:14px;color:#E8ECF1;font-weight:600;">www.nanovate.ag/{product}</span>
+          </div>
+          <div class="profile-item" style="padding:14px 0;">
+            <span style="font-size:13px;color:#8B95A5;">Coupon Logic</span>
+            <span style="font-size:14px;color:#E8ECF1;font-weight:600;">1 coupon per 2 acres</span>
+          </div>
+        </div>
+
+        <div class="admin-ids-card" style="margin-top:20px;">
+          <div class="admin-ids-title">QR Code URLs</div>
+          <div class="profile-item" style="border-bottom:1px solid rgba(255,255,255,0.06);padding:14px 0;">
+            <span style="font-size:13px;color:#8B95A5;">euPhoria</span>
+            <span style="font-size:13px;color:#4ADE80;font-weight:500;">www.nanovate.ag/euPhoria</span>
+          </div>
+          <div class="profile-item" style="border-bottom:1px solid rgba(255,255,255,0.06);padding:14px 0;">
+            <span style="font-size:13px;color:#8B95A5;">KronoShield</span>
+            <span style="font-size:13px;color:#38BDF8;font-weight:500;">www.nanovate.ag/KronoShield</span>
+          </div>
+          <div class="profile-item" style="padding:14px 0;">
+            <span style="font-size:13px;color:#8B95A5;">AgroVita</span>
+            <span style="font-size:13px;color:#FF8C38;font-weight:500;">www.nanovate.ag/AgroVita</span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Admin Toast -->
+  <div class="admin-toast" id="admin-toast">
+    <span class="admin-toast-icon">✅</span>
+    <span class="admin-toast-text">Action completed</span>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

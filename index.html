@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="NANOVATE NAYI SOCH - QR Code based farmer engagement platform for agricultural innovation">
+  <title>NANOVATE NAYI SOCH</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<div class="desktop-bg"></div>
+
+<div class="mobile-container">
+
+  <!-- ============ TOAST ============ -->
+  <div class="toast" id="toast">
+    <span class="toast-icon">✅</span>
+    <span class="toast-text">Success</span>
+  </div>
+
+  <!-- ============ SUCCESS OVERLAY ============ -->
+  <div class="success-overlay" id="success-overlay">
+    <div class="success-modal">
+      <div class="success-check">✓</div>
+      <h3>Bill Submitted!</h3>
+      <p>Acreage covered: <strong id="success-acreage">0</strong> acres<br>
+      Coupons generated: <strong id="success-coupons">0</strong></p>
+      <button class="btn btn-secondary btn-block" onclick="closeSuccessOverlay()">View My Coupons</button>
+    </div>
+  </div>
+
+
+  <!-- ============ SCREEN: SPLASH ============ -->
+  <div class="screen no-pad-bottom" id="screen-splash">
+    <div class="splash">
+      <!-- Gencrest decorative squares -->
+      <div class="splash-deco1"></div>
+      <div class="splash-deco2"></div>
+      <div class="splash-deco3"></div>
+      <div class="splash-content">
+        <div class="splash-logo">🌱</div>
+        <div class="splash-brand">NANOVATE</div>
+        <div class="splash-tagline">Nayi Soch</div>
+        <div class="splash-sub" data-i18n="gencrest_init">A Gencrest Initiative</div>
+
+        <div class="splash-product-badge">
+          <span>🧬</span>
+          <span data-i18n="nano_tech">Nano-Technology for Agriculture</span>
+        </div>
+
+        <div class="splash-buttons">
+          <button class="btn btn-primary btn-lg" onclick="showScreen('screen-register')" data-i18n="register">Register</button>
+          <button class="btn btn-outline btn-lg" onclick="goToLogin()" data-i18n="login">Login</button>
+        </div>
+
+        <div class="lang-selector">
+          <span style="font-size:18px;margin-right:6px;">🌐</span>
+          <select onchange="setLanguage(this.value)" id="lang-select">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="mr">मराठी</option>
+            <option value="gu">ગુજરાતી</option>
+            <option value="ta">தமிழ்</option>
+            <option value="te">తెలుగు</option>
+            <option value="kn">ಕನ್ನಡ</option>
+            <option value="bn">বাংলা</option>
+            <option value="pa">ਪੰਜਾਬੀ</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============ SCREEN: REGISTRATION ============ -->
+  <div class="screen no-pad-bottom" id="screen-register">
+    <div class="top-bar">
+      <button class="top-bar-back" onclick="showScreen('screen-splash')">←</button>
+      <span class="top-bar-title">NANOVATE</span>
+      <div style="width:36px"></div>
+    </div>
+
+    <div class="form-container" style="overflow-y:auto;flex:1;">
+      <div class="form-header">
+        <h2 data-i18n="register">Register</h2>
+        <p>Create your account to start earning coupons and participate in the NAYI SOCH contest.</p>
+      </div>
+
+      <form onsubmit="handleRegistration(event)">
+        <div class="form-group">
+          <label data-i18n="name">Full Name <span class="required">*</span></label>
+          <input type="text" class="form-input" id="reg-name" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="mobile">Mobile Number <span class="required">*</span></label>
+          <input type="tel" class="form-input" id="reg-mobile" placeholder="10-digit mobile number" maxlength="10" pattern="[0-9]{10}" required>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="village">Village <span class="required">*</span></label>
+          <input type="text" class="form-input" id="reg-village" placeholder="Enter village name" required>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="state">State <span class="required">*</span></label>
+          <select class="form-input" id="reg-state" onchange="onStateChange()" required>
+            <option value="">Select State</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="district">District <span class="required">*</span></label>
+            <select class="form-input" id="reg-district" onchange="onDistrictChange()" required>
+              <option value="">Select District</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label data-i18n="taluka">Taluka <span class="required">*</span></label>
+            <select class="form-input" id="reg-taluka" required>
+              <option value="">Select Taluka</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="pincode">Pin Code <span class="required">*</span></label>
+          <input type="text" class="form-input" id="reg-pincode" placeholder="6-digit pin code" maxlength="6" pattern="[0-9]{6}" required>
+        </div>
+
+        <button type="submit" class="btn btn-secondary btn-block btn-lg mt-24" data-i18n="submit">
+          Register →
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ============ SCREEN: OTP ============ -->
+  <div class="screen no-pad-bottom" id="screen-otp">
+    <div class="top-bar">
+      <button class="top-bar-back" onclick="showScreen('screen-splash')">←</button>
+      <span class="top-bar-title" data-i18n="verify_otp">Verify OTP</span>
+      <div style="width:36px"></div>
+    </div>
+
+    <div class="otp-container">
+      <div class="otp-icon">📱</div>
+      <div class="otp-title" data-i18n="otp_title">OTP Verification</div>
+      <div class="otp-subtitle" data-i18n="otp_sub">We've sent a code to</div>
+      <div class="otp-phone" id="otp-phone-display">+91 9876543210</div>
+
+      <div class="otp-inputs">
+        <input type="text" class="otp-input" maxlength="1" oninput="handleOtpInput(event, 0)" onkeydown="handleOtpInput(event, 0)">
+        <input type="text" class="otp-input" maxlength="1" oninput="handleOtpInput(event, 1)" onkeydown="handleOtpInput(event, 1)">
+        <input type="text" class="otp-input" maxlength="1" oninput="handleOtpInput(event, 2)" onkeydown="handleOtpInput(event, 2)">
+        <input type="text" class="otp-input" maxlength="1" oninput="handleOtpInput(event, 3)" onkeydown="handleOtpInput(event, 3)">
+      </div>
+
+      <button class="btn btn-secondary btn-block" onclick="verifyOtp()" data-i18n="verify_login">Verify & Login</button>
+
+      <div class="otp-resend">
+        <span data-i18n="resend">Didn't receive code? Resend OTP</span> <a onclick="showToast('OTP resent!', 'success')"></a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============ SCREEN: HOME / DASHBOARD ============ -->
+  <div class="screen" id="screen-home">
+    <div class="home-header">
+      <div class="home-greeting" data-i18n="welcome">Welcome back 👋</div>
+      <div class="home-name" id="home-user-name">Rajesh Patil</div>
+      <div class="home-lang-badge" onclick="showScreen('screen-splash')">🌐 EN</div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-coupons">6</div>
+        <div class="stat-label" data-i18n="coupons">Coupons</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-acreage">13.0</div>
+        <div class="stat-label" data-i18n="acres">Acres</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-bills">4</div>
+        <div class="stat-label" data-i18n="bills">Bills</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label"><span class="section-label__text" data-i18n="products">Products</span> <span class="section-label__divider">//</span></div>
+      <div class="section-title" data-i18n="offerings">Our Offerings, Sustainably Shaped</div>
+    </div>
+
+    <div class="product-cards">
+      <div class="product-card" onclick="selectProduct('euphoria')">
+        <div class="product-icon euphoria">🌿</div>
+        <div class="product-info">
+          <h4 data-i18n="euphoria_name">euPhoria</h4>
+          <p data-i18n="euphoria_desc">Bio-stimulant for enhanced crop growth</p>
+        </div>
+        <div class="product-arrow">→</div>
+      </div>
+      <div class="product-card" onclick="selectProduct('kronoshield')">
+        <div class="product-icon kronoshield">🛡️</div>
+        <div class="product-info">
+          <h4 data-i18n="kronoshield_name">KronoShield</h4>
+          <p data-i18n="kronoshield_desc">Advanced nano crop protection</p>
+        </div>
+        <div class="product-arrow">→</div>
+      </div>
+      <div class="product-card" onclick="selectProduct('agrovita')">
+        <div class="product-icon agrovita">🌾</div>
+        <div class="product-info">
+          <h4 data-i18n="agrovita_name">AgroVita</h4>
+          <p data-i18n="agrovita_desc">Nano-nutrient soil enhancer</p>
+        </div>
+        <div class="product-arrow">→</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label"><span class="section-label__text" data-i18n="quick_access">Quick Access</span> <span class="section-label__divider">//</span></div>
+      <div class="section-title" data-i18n="quick_actions">Quick Actions</div>
+    </div>
+
+    <div class="quick-actions">
+      <div class="quick-action" onclick="showScreen('screen-coupons'); renderCoupons();">
+        <div class="quick-action-icon">🎟️</div>
+        <div class="quick-action-label" data-i18n="my_coupons">My Coupons</div>
+      </div>
+      <div class="quick-action" onclick="showScreen('screen-contest'); showContestTab('info');">
+        <div class="quick-action-icon">🏆</div>
+        <div class="quick-action-label" data-i18n="nayi_soch">NAYI SOCH Contest</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============ SCREEN: BILL ENTRY ============ -->
+  <div class="screen" id="screen-bill">
+    <div class="top-bar">
+      <button class="top-bar-back" onclick="showScreen('screen-home')">←</button>
+      <span class="top-bar-title">
+        <span id="bill-product-icon">🌿</span>
+        <span id="bill-product-name">euPhoria</span>
+      </span>
+      <div style="width:36px"></div>
+    </div>
+
+    <div class="bill-section">
+      <div class="form-header">
+        <h2 data-i18n="submit_bill">Submit Bill</h2>
+        <p data-i18n="bill_desc">Select your SKU, enter quantity and upload your bill photo.</p>
+      </div>
+
+      <div class="section-title" style="font-size:14px;" data-i18n="select_sku">Select SKU</div>
+      <div class="sku-selector" id="sku-selector">
+        <!-- SKUs populated by JS -->
+      </div>
+
+      <div class="form-group">
+        <label><span data-i18n="qty">Quantity Purchased</span> <span class="required">*</span></label>
+        <input type="number" class="form-input" id="bill-qty" value="1" min="1" max="99" onchange="updateBillQty(this.value)" oninput="updateBillQty(this.value)">
+      </div>
+
+      <div class="acreage-display">
+        <div class="acreage-label">Total Acreage Covered</div>
+        <div class="acreage-value" id="acreage-value">0</div>
+        <div class="acreage-label">acres</div>
+        <div class="acreage-coupon-info" id="coupon-info">Select a SKU to calculate</div>
+      </div>
+
+      <div class="section-title" style="font-size:14px;" data-i18n="upload_bill">Upload Bill Photo</div>
+      <div class="upload-area" id="bill-upload-area" onclick="handleBillUpload()">
+        <div class="upload-icon">📸</div>
+        <div class="upload-text">Tap to upload bill photo</div>
+        <div class="upload-hint">Take a clear photo of your purchase bill</div>
+      </div>
+
+      <div class="section-title" style="font-size:14px;" data-i18n="upload_sku">Upload SKU Photo</div>
+      <div class="upload-area" id="sku-upload-area" onclick="handleSkuUpload()">
+        <div class="upload-icon">📦</div>
+        <div class="upload-text">Tap to upload product photo</div>
+        <div class="upload-hint">Photo of the product purchased</div>
+      </div>
+
+      <button class="btn btn-secondary btn-block btn-lg mt-24" onclick="submitBill()" data-i18n="submit_bill">
+        Submit Bill →
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ============ SCREEN: COUPONS ============ -->
+  <div class="screen" id="screen-coupons">
+    <div class="top-bar">
+      <button class="top-bar-back" onclick="showScreen('screen-home')">←</button>
+      <span class="top-bar-title" data-i18n="coupons">My Coupons</span>
+      <div style="width:36px"></div>
+    </div>
+
+    <div class="coupons-header">
+      <div class="coupons-count" id="coupons-count">6</div>
+      <div class="coupons-label"><span data-i18n="total_coupons">Total Coupons</span> · <span id="coupons-active-count">4 Active</span></div>
+    </div>
+
+    <div style="padding:16px 20px 0;">
+      <div style="background:rgba(186,30,98,0.06);border:1px solid rgba(186,30,98,0.12);border-radius:0 16px 0 16px;padding:12px 16px;font-size:13px;color:#BA1E62;display:flex;align-items:center;gap:8px;">
+        <span>💡</span>
+        <span>1 coupon is generated for every 2 acres of material purchased</span>
+      </div>
+    </div>
+
+    <div class="coupon-list" id="coupon-list">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+
+  <!-- ============ SCREEN: CONTEST ============ -->
+  <div class="screen" id="screen-contest">
+    <div class="top-bar">
+      <button class="top-bar-back" onclick="showScreen('screen-home')">←</button>
+      <span class="top-bar-title">NAYI SOCH</span>
+      <div style="width:36px"></div>
+    </div>
+
+    <div class="contest-hero">
+      <div class="contest-badge">
+        <span>🏆</span>
+        <span>NANOVATE NAYI SOCH 2026</span>
+      </div>
+      <h2>Agricultural Innovation Contest</h2>
+      <p data-i18n="contest_desc">Showcase your farming innovation and win exciting prizes!</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="info" onclick="showContestTab('info')" data-i18n="about">About</button>
+      <button class="tab" data-tab="form" onclick="showContestTab('form')" data-i18n="enter_contest">Enter Contest</button>
+      <button class="tab" data-tab="entries" onclick="showContestTab('entries')" data-i18n="my_entries">My Entries</button>
+    </div>
+
+    <!-- Contest Info Tab -->
+    <div class="contest-info-section" id="contest-info-content">
+      <div class="contest-rule">
+        <div class="contest-rule-num">1</div>
+        <div class="contest-rule-text">
+          <strong>Record a short video</strong> (up to 3 minutes) showcasing your unique agricultural innovation or farming technique.
+        </div>
+      </div>
+      <div class="contest-rule">
+        <div class="contest-rule-num">2</div>
+        <div class="contest-rule-text">
+          <strong>Categories:</strong> Water Conservation, Pest Management, Soil Health, Crop Innovation, Farm Mechanization, Organic Farming, Post-Harvest Technology.
+        </div>
+      </div>
+      <div class="contest-rule">
+        <div class="contest-rule-num">3</div>
+        <div class="contest-rule-text">
+          <strong>Selection Process:</strong> Expert panel reviews all entries. Winners announced at contest closure.
+        </div>
+      </div>
+      <div class="contest-rule">
+        <div class="contest-rule-num">4</div>
+        <div class="contest-rule-text">
+          <strong>Awards:</strong> 🥇 Gold — ₹50,000 | 🥈 Silver — ₹30,000 | 🥉 Bronze — ₹15,000 per category.
+        </div>
+      </div>
+      <div class="contest-rule">
+        <div class="contest-rule-num">5</div>
+        <div class="contest-rule-text">
+          <strong>Contest Period:</strong> July 1 — September 30, 2026. Open to all registered NANOVATE users.
+        </div>
+      </div>
+      <div style="padding:20px 0;">
+        <button class="btn btn-secondary btn-block btn-lg" onclick="showContestTab('form')">
+          🎬 Enter Contest Now
+        </button>
+      </div>
+    </div>
+
+    <!-- Contest Form Tab -->
+    <div class="contest-info-section" id="contest-form-content" style="display:none;">
+      <div class="form-header">
+        <h2 data-i18n="submit_entry">Submit Your Innovation</h2>
+        <p data-i18n="contest_desc">Fill in the details and upload your video to participate.</p>
+      </div>
+
+      <div class="form-group">
+        <label><span data-i18n="innovation_title">Innovation Title</span> <span class="required">*</span></label>
+        <input type="text" class="form-input" id="contest-title" placeholder="e.g., Solar Powered Drip System">
+      </div>
+
+      <div class="form-group">
+        <label><span data-i18n="category">Category</span> <span class="required">*</span></label>
+        <select class="form-input" id="contest-category">
+          <option value="">Select Category</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label><span data-i18n="short_desc">Short Description</span> <span class="required">*</span></label>
+        <textarea class="form-input" id="contest-desc" rows="4" placeholder="Describe your innovation in 2-3 sentences..." style="resize:vertical;"></textarea>
+      </div>
+
+      <div class="section-title" style="font-size:14px;" data-i18n="upload_video">Upload Video</div>
+      <div class="video-upload-area" id="video-upload-area" onclick="handleVideoUpload()">
+        <div class="upload-icon">🎥</div>
+        <div class="upload-text" data-i18n="upload_video">Upload Video</div>
+        <div class="upload-hint">Record live or upload from device (max 100MB)</div>
+      </div>
+
+      <button class="btn btn-secondary btn-block btn-lg" onclick="submitContest()">
+        Submit Entry →
+      </button>
+    </div>
+
+    <!-- Contest Entries Tab -->
+    <div class="contest-info-section" id="contest-entries-content" style="display:none;">
+      <div id="contest-entries-list">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============ SCREEN: PROFILE ============ -->
+  <div class="screen no-pad-bottom" id="screen-profile">
+    <div class="profile-header">
+      <div class="profile-avatar">👤</div>
+      <div class="profile-name" id="profile-name">Rajesh Patil</div>
+      <div class="profile-phone" id="profile-phone">+91 9876543210</div>
+    </div>
+
+    <div class="profile-details">
+      <div class="section-title" data-i18n="personal_details">Personal Details</div>
+
+      <div class="profile-item">
+        <span class="profile-item-label" data-i18n="village">Village</span>
+        <span class="profile-item-value" id="profile-detail-village">Wadgaon</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-item-label" data-i18n="state">State</span>
+        <span class="profile-item-value" id="profile-detail-state">Maharashtra</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-item-label" data-i18n="district">District</span>
+        <span class="profile-item-value" id="profile-detail-district">Pune</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-item-label" data-i18n="taluka">Taluka</span>
+        <span class="profile-item-value" id="profile-detail-taluka">Baramati</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-item-label" data-i18n="pincode">Pin Code</span>
+        <span class="profile-item-value" id="profile-detail-pincode">413102</span>
+      </div>
+    </div>
+
+    <div class="section-title px-20" data-i18n="activity">Activity</div>
+    <div class="product-cards" style="padding-top:0;">
+      <div class="product-card" onclick="showScreen('screen-coupons'); renderCoupons();">
+        <div class="product-icon euphoria">🎟️</div>
+        <div class="product-info">
+          <h4 data-i18n="my_coupons">My Coupons</h4>
+          <p data-i18n="my_coupons_desc">View all your earned coupons</p>
+        </div>
+        <div class="product-arrow">→</div>
+      </div>
+      <div class="product-card" onclick="showScreen('screen-contest'); showContestTab('entries');">
+        <div class="product-icon agrovita">🏆</div>
+        <div class="product-info">
+          <h4 data-i18n="my_entries">Contest Entries</h4>
+          <p data-i18n="contest_entries_desc">View your contest submissions</p>
+        </div>
+        <div class="product-arrow">→</div>
+      </div>
+    </div>
+
+    <div class="logout-btn">
+      <button class="btn btn-block" onclick="logout()" style="background:rgba(186,30,98,0.08);color:#BA1E62;font-weight:700;border-radius:9999px;" data-i18n="logout">
+        Logout
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ============ BOTTOM NAVIGATION ============ -->
+  <div class="bottom-nav" id="bottom-nav" style="display:none;">
+    <button class="nav-item active" id="nav-home" onclick="showScreen('screen-home')">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label" data-i18n="home">Home</span>
+    </button>
+    <button class="nav-item" id="nav-bills" onclick="selectProduct('euphoria')">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label" data-i18n="bills">Bills</span>
+    </button>
+    <button class="nav-item" id="nav-coupons" onclick="showScreen('screen-coupons'); renderCoupons();">
+      <span class="nav-icon">🎟️</span>
+      <span class="nav-label" data-i18n="coupons">Coupons</span>
+    </button>
+    <button class="nav-item" id="nav-contest" onclick="showScreen('screen-contest'); showContestTab('info');">
+      <span class="nav-icon">🏆</span>
+      <span class="nav-label" data-i18n="contest">Contest</span>
+    </button>
+    <button class="nav-item" id="nav-profile" onclick="showScreen('screen-profile'); renderProfile();">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label" data-i18n="profile">Profile</span>
+    </button>
+  </div>
+
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  // Show/hide bottom nav based on screen
+  const observer = new MutationObserver(() => {
+    const activeScreen = document.querySelector('.screen.active');
+    const nav = document.getElementById('bottom-nav');
+    if (!activeScreen || !nav) return;
+    const screensWithNav = ['screen-home', 'screen-coupons', 'screen-contest', 'screen-profile'];
+    nav.style.display = screensWithNav.includes(activeScreen.id) ? 'flex' : 'none';
+  });
+  observer.observe(document.querySelector('.mobile-container'), { subtree: true, attributes: true, attributeFilter: ['class'] });
+</script>
+
+</body>
+</html>
