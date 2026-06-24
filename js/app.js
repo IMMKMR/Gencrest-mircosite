@@ -203,6 +203,7 @@ const TRANSLATIONS = {
     covers: 'આવરી લે છે', select_a_sku: 'ગણતરી કરવા માટે એક SKU પસંદ કરો',
     redeemed: 'રિડીમ કર્યું', submitted: 'સબમિટ કર્યું', under_review: 'સમીક્ષા હેઠળ', selected: 'પસંદ કરેલ', winner: 'વિજેતા',
     no_entries: 'હજુ સુધી કોઈ એન્ટ્રી નથી', no_entries_desc: 'સ્પર્ધામાં ભાગ લેવા માટે તમારો પહેલો કૃષિ-ઇનોવેશન વિડિઓ સબમિટ કરો!'
+  },
   ta: { 
     register: 'பதிவு செய்', login: 'உள்நுழை', welcome: 'மீண்டும் வருக', submit: 'சமர்ப்பி', 
     name: 'முழு பெயர்', mobile: 'மொபைல் எண்', village: 'கிராமம்', state: 'மாநிலம்', 
